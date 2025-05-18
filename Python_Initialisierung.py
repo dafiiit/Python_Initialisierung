@@ -33,7 +33,7 @@ def run_command(command, cwd=None):
         return e.stderr
 
 def create_project(project_name):
-    base_path = os.getcwd()
+    base_path = os.path.dirname(os.getcwd())
     project_path = os.path.join(base_path, project_name)
 
     if os.path.exists(project_path):
@@ -55,7 +55,7 @@ def create_project(project_name):
     run_command("git init", cwd=project_path)
 
     # venv erstellen
-    run_command("python -m venv venv", cwd=project_path)
+    run_command("python3 -m venv venv", cwd=project_path)
 
     # pip freeze > requirements.txt in der venv
     pip_path = os.path.join(project_path, "venv", "Scripts" if os.name == "nt" else "bin", "pip")
@@ -68,6 +68,14 @@ def create_project(project_name):
 
     # GitHub-Repo mit GitHub CLI erstellen und pushen
     run_command(f"gh repo create {project_name} --public --source=. --remote=origin --push", cwd=project_path)
+
+    # Leeres Python-File mit Projektname erstellen
+    python_file_path = os.path.join(project_path, f"{project_name}.py")
+    with open(python_file_path, "w") as f:
+        pass  # leere Datei
+
+    # Projektordner in Cursor öffnen
+    run_command(f"open -a Cursor \"{project_path}\"")
 
     print(f"Projekt '{project_name}' wurde erfolgreich erstellt und gepusht!")
 
