@@ -74,8 +74,8 @@ def create_project(project_name):
     with open(python_file_path, "w") as f:
         pass  # leere Datei
 
-    # Projektordner in Cursor öffnen
-    run_command(f"open -a Cursor \"{project_path}\"")
+    # Projektordner in VS Code öffnen
+    run_command(f"code \"{project_path}\"")
 
     print(f"Projekt '{project_name}' wurde erfolgreich erstellt und gepusht!")
 
